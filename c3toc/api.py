@@ -73,11 +73,12 @@ class C3TOCAPI:
         avg_speed = trackmarker_delta / seconds_delta
         return avg_speed, seconds_delta, new_history
     
-    def get_train_info(self, display_trackmarker, eta_lookback, eta_max_jump, trackmarker_delta_arrived):
+    def get_train_info(self, display_trackmarker, eta_lookback, eta_max_jump, trackmarker_delta_arrived, track_length):
         # display_trackmarker: Physical trackmarker position of the display
         # eta_lookback: How many minutes of past train positions to consider for ETA
         # eta_max_jump: Maximum ETA jump in seconds
         # trackmarker_delta_arrived: "station zone" size in track units
+        # track_length: Length of the track in track units
         
         utcnow = datetime.datetime.utcnow()
         
@@ -103,7 +104,7 @@ class C3TOCAPI:
                 self.train_info[name]['history'].append((timestamp, data['trackmarker']))
             
             # Calculate average speed
-            avg_speed, seconds_delta, history = _calc_avg_speed(self.train_info[name]['history'], eta_lookback, track_length) # 5 minutes
+            avg_speed, seconds_delta, history = self._calc_avg_speed(self.train_info[name]['history'], eta_lookback, track_length) # 5 minutes
             
             # Update average speed
             self.train_info[name]['avg_speed'] = avg_speed
