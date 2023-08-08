@@ -87,7 +87,7 @@ class C3TOCAPI:
         for pos, train in enumerate(trains):
             name, data = train
             # Parse "last update" timestamp"
-            timestamp = dateutil.parser.isoparse(data['timestamp'] + "Z").replace(tzinfo=None)
+            timestamp = dateutil.parser.isoparse(data['timestamp']).replace(tzinfo=None)
             
             # Init train data if train is new
             if name not in self.train_info:
